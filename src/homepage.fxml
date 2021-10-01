@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="HomePageFXMLController"
+            prefHeight="400.0" prefWidth="600.0">
+    <GridPane hgap="10.0" layoutX="30.0" layoutY="40.0" prefHeight="292.0" prefWidth="540.0" vgap="10.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="91.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="136.0" minHeight="10.0" prefHeight="101.0" vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="136.0" minHeight="10.0" prefHeight="92.0" vgrow="SOMETIMES"/>
+        </rowConstraints>
+        <Pane fx:id="gameOnePane" prefHeight="109.0" prefWidth="175.0">
+            <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openGameOne" text="Play" fx:id="tryBtn"/>
+            <Label alignment="CENTER" layoutX="1.0" layoutY="14.0" prefHeight="17.0" prefWidth="173.0"
+                   text="Reaction Time"/>
+        </Pane>
+        <Pane fx:id="gameEightPane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button layoutX="68.0" layoutY="44.0" mnemonicParsing="false" onAction="#openGameEight" text="Play"/>
+            <Label alignment="CENTER" layoutX="2.0" layoutY="14.0" prefHeight="17.0" prefWidth="173.0"
+                   text="Typing"/>
+        </Pane>
+        <Pane fx:id="gameSevenPane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.rowIndex="2">
+            <Button layoutX="67.0" layoutY="44.0" mnemonicParsing="false" onAction="#openGameSeven" text="Play"/>
+            <Label alignment="CENTER" layoutX="1.0" layoutY="14.0" prefHeight="17.0" prefWidth="173.0"
+                   text="Visual Memory"/>
+        </Pane>
+        <Pane fx:id="gameSixPane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openGameSix" text="Play"/>
+            <Label alignment="CENTER" layoutY="14.0" prefHeight="17.0" prefWidth="173.0" text="Chimp Test"/>
+        </Pane>
+        <Pane fx:id="gameFivePane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openGameFive" text="Play"/>
+            <Label alignment="CENTER" layoutY="14.0" prefHeight="17.0" prefWidth="173.0" text="Verbal Memory"/>
+        </Pane>
+        <Pane fx:id="gameFourPane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.rowIndex="1">
+            <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openGameFour" text="Play"/>
+            <Label alignment="CENTER" layoutX="1.0" layoutY="14.0" prefHeight="17.0" prefWidth="173.0"
+                   text="Number Memory"/>
+        </Pane>
+        <Pane fx:id="gameThreePane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.columnIndex="2">
+            <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openGameThree" text="Play"/>
+            <Label alignment="CENTER" layoutX="1.0" layoutY="14.0" prefHeight="17.0" prefWidth="173.0"
+                   text="Aim Trainer"/>
+        </Pane>
+        <Pane fx:id="gameTwoPane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.columnIndex="1">
+            <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openGameTwo" text="Play"/>
+            <Label alignment="CENTER" layoutY="14.0" prefHeight="17.0" prefWidth="173.0" text="Sequence Memory"/>
+        </Pane>
+    </GridPane>
+    <Label layoutX="214.0" layoutY="14.0" text="Welcome to Human Benchmark"/>
+
+</AnchorPane>
