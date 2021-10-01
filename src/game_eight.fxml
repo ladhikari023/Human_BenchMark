@@ -6,9 +6,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="GameEightFXMLController"
             prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <Pane fx:id="gEightCanvasHolderPane" layoutX="1.0" layoutY="53.0" prefHeight="299.0" prefWidth="662.0" style="-fx-background-color: BLUE" onMouseClicked="#startGameEight">
+            <children>
+                <Canvas fx:id="gEightCanvas" height="299.0" width="662.0" />
+                <Label fx:id="gEightLabelStart" alignment="CENTER" layoutY="236.0" prefHeight="17.0" prefWidth="662.0" text="Start typing to begin" textFill="#faf8f8" />
+                <Label fx:id="gEightLabelHeading" alignment="CENTER" layoutY="30.0" prefHeight="29.0" prefWidth="662.0" text="Typing" textFill="#fdfcfc">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label fx:id="gEightLabelInfo" alignment="CENTER" layoutX="1.0" layoutY="68.0" prefHeight="17.0" prefWidth="661.0" text="How many words per minute can you type?" textFill="#fdfafa" />
+                <TextArea fx:id="gEightTextArea" layoutX="72.0" layoutY="97.0" prefHeight="130.0" prefWidth="525.0" promptText="Typing  words goes here" />
+            </children>
+        </Pane>
+        <Button fx:id="main_menu_btn" layoutX="290.0" layoutY="382.0" mnemonicParsing="false" onAction="#goToHomePage" text="Main Menu" />
+    </children>
 
 </AnchorPane>
