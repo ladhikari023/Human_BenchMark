@@ -6,9 +6,27 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.text.Font?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="GameSixFXMLController"
             prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <Pane fx:id="gSixCanvasHolderPane" layoutX="1.0" layoutY="53.0" prefHeight="299.0" prefWidth="662.0" style="-fx-background-color: BLUE">
+            <children>
+                <Canvas fx:id="gSixCanvas" height="299.0" onMouseClicked="#startGameSix" width="662.0" />
+                <Label fx:id="gSixLabelStart" alignment="CENTER" layoutX="1.0" layoutY="176.0" prefHeight="17.0" prefWidth="661.0" text="Click anywhere to 'Start'" textFill="#faf8f8" />
+                <Label fx:id="gSixLabelHeading" alignment="CENTER" layoutX="-1.0" layoutY="104.0" prefHeight="29.0" prefWidth="662.0" text="Chimp Test" textFill="#fdfcfc">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label fx:id="gSixLabelInfo" alignment="CENTER" layoutY="141.0" prefHeight="17.0" prefWidth="663.0" text="Click the squares in order according to their numbers. The test will get progressively harder." textFill="#fdfafa" />
+            </children>
+        </Pane>
+        <Button fx:id="main_menu_btn" layoutX="240.0" layoutY="382.0" mnemonicParsing="false" onAction="#goToHomePage" text="Main Menu" />
+        <Button layoutX="350.0" layoutY="382.0" mnemonicParsing="false" onAction="#restartGame" text="ReStart" />
+    </children>
 
 </AnchorPane>
