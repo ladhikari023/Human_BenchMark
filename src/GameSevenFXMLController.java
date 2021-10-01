@@ -1,9 +1,17 @@
+/*
+    VISUAL MEMORY
+    This is the Controller class of game_seven.fxml
+    In this class, I show user some cells in grid pane turns into white and user have to click the same cells
+    but the order doesn't matter. If user get all white turned cell right then they advance to higher level.
+    If not, their strikes decrease by 1. When user is out of strikes, they are shown a game over message with their
+    final score.
+    user can save the score or restart the game.
+ */
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -15,10 +23,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameSevenFXMLController {
+
+    // Accessing nodes from corresponding FXML file
     @FXML
     private Pane gSevenCanvasHolderPane;
-    @FXML
-    private Canvas gSevenCanvas;
     @FXML
     private Label gSevenLabelStart;
     @FXML
@@ -36,21 +44,27 @@ public class GameSevenFXMLController {
     @FXML
     private AnchorPane gSevenMainPane;
 
-    private int sizeOfGrid = 3;
-    private int level = 1;
-    private int strike = 3;
-    private int count = 0;
-    private final ArrayList<int[]> cellList = new ArrayList<>();
-    private final ArrayList<Button> btnList = new ArrayList<>();
-    private final ArrayList<Button> shownBtnList = new ArrayList<>();
-    private final ArrayList<Button> clickedBtnList = new ArrayList<>();
-    private final Pane gridRoot = new Pane();
-    private final Pane showResultRoot = new Pane();
+    //Declaring global variables
+    private int sizeOfGrid = 3; //tracks size of grid. 3 means 3*3 grid
+    private int level = 1; //tracks level of game
+    private int strike = 3; //tracks strikes
+    private int count = 0; //tracks count to increase the size of grid
+    private final ArrayList<int[]> cellList = new ArrayList<>(); //list to hold int array of row and column index
+    private final ArrayList<Button> btnList = new ArrayList<>(); //list to hold all buttons added into gridpane
+    private final ArrayList<Button> shownBtnList = new ArrayList<>(); //list to hold all white turned buttons
+    private final ArrayList<Button> clickedBtnList = new ArrayList<>(); //list to hold all buttons that user clicks
+    private final Pane gridRoot = new Pane(); //root to add gridpane
+    private final Pane showResultRoot = new Pane(); //root to show result
 
+    /*
+        This method runs when user clicks the initial pane shown when game seven loads
+        called runGame() method.
+     */
     public void startGameSeven(MouseEvent mouseEvent) {
         runGame();
     }
 
+    // add int array to cellList as row index and column index
     private void gridCellIndexes() {
         cellList.clear();
         for (int i = 0; i < sizeOfGrid; i++) {
@@ -61,6 +75,7 @@ public class GameSevenFXMLController {
         }
     }
 
+    // add row and column constraints in the grid pane
     private void gridBuild() {
         gSevenGrid.getRowConstraints().clear();
         gSevenGrid.getColumnConstraints().clear();
@@ -72,6 +87,7 @@ public class GameSevenFXMLController {
         }
     }
 
+    //adding buttons in each cell of grid pane
     private void addBtnOnGrid(){
         btnList.clear();
         for (int i = 0; i < cellList.size(); i++) {
@@ -84,12 +100,18 @@ public class GameSevenFXMLController {
         }
     }
 
+    //sets visibility of few nodes to false
     public void initialize(){
         gSevenGrid.setVisible(false);
         gSevenLevelLabel.setVisible(false);
         gSevenStrikeLabel.setVisible(false);
     }
 
+    /*
+        add gridRoot pane to main pane of game seven
+        called gridBuild(), gridCellIndexes() and addBtnGrid() method to develop and show a grid on the pane
+        called showBoxes() to show white turned cells to user which they have to remember
+     */
     private void runGame() {
         gridRoot.setPrefWidth(gSevenCanvasHolderPane.getWidth());
         gridRoot.setPrefHeight(gSevenCanvasHolderPane.getHeight());
@@ -108,8 +130,17 @@ public class GameSevenFXMLController {
         gSevenMainPane.getChildren().add(gridRoot);
     }
 
-
+    // list that holds indexes of btnList to generate a random index
     ArrayList<Integer> indexArr = new ArrayList<>();
+
+    /*
+        updates level and strike labels
+        increase the grid size when the counter is 2 and sets the count to 0 again
+        turn level+2 number of buttons to white for time in seconds equivalent to level the user is in
+        Used Timeline for the transition
+        adds button to clickedBtnList when user clicks in any button
+        when size of clickedBtnList and shownBtnList equals, checkBoxes() method is called
+     */
     private void showBoxes() {
         gSevenLevelLabel.setText("Level: "+level);
         gSevenStrikeLabel.setText("Strike: "+strike);
@@ -150,6 +181,7 @@ public class GameSevenFXMLController {
         count++;
     }
 
+    //generates non repeated random value in a range
     private int getRandom() {
         int rand =  (int)(Math.random()*indexArr.size()-1);
         int randIndex = 0;
@@ -162,6 +194,12 @@ public class GameSevenFXMLController {
         return randIndex;
     }
 
+    /*
+        checks if the user clicked cell are the ones that were turned to white
+        If yes, advance to higher level
+        If No, decrease strikes
+        If all strikes is finished, then called resultPane() method
+     */
     private void checkBoxes() {
         boolean isRight = false;
         boolean isGameOver = false;
@@ -197,6 +235,10 @@ public class GameSevenFXMLController {
         }
     }
 
+    /*
+        displays game over message with users final score
+        Added to main pane
+     */
     private void resultPane() {
         gridRoot.getChildren().clear();
         showResultRoot.setPrefWidth(gSevenCanvasHolderPane.getWidth());
@@ -216,10 +258,17 @@ public class GameSevenFXMLController {
 
     }
 
+    /*
+     This method runs when user clicks Main Menu button.
+     This method navigates user to home page.
+    */
     public void goToHomePage(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().goToHomePage(actionEvent);
     }
-
+    /*
+        This method runs when user clicks Play Again button.
+        This method navigates user to game seven again.
+     */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameSeven(actionEvent);
     }

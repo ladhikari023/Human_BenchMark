@@ -1,3 +1,13 @@
+/*
+    VERBAL MEMORY TEST
+    This is the Controller class of game_five.fxml
+    In this class, I show a random word from a list of word to user.
+    User has to choose it the words was shown before or it is a new word.
+    They get score of 1 if they get the option right or lose 1 life among 3
+    if they get it wrong.
+    If all their lives is finished, a game over message with their score is displayed
+    user can save the score or restart the game
+ */
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -11,6 +21,7 @@ import java.util.ArrayList;
 
 public class GameFiveFXMLController {
 
+    //Declaring global variables
     private int score = 0;
     private int lives = 3;
     private String currShowingWord = "";
@@ -19,6 +30,7 @@ public class GameFiveFXMLController {
     ArrayList<String> allWords = new ArrayList<>();
     ArrayList<String> shownWords = new ArrayList<>();
 
+    // Accessing nodes from corresponding FXML file
     @FXML
     private Button gFiveNewBtn;
     @FXML
@@ -38,6 +50,7 @@ public class GameFiveFXMLController {
     @FXML
     private Button main_menu_btn;
 
+    //adds all words from list to allWords list
     public void initialize(){
         for (int i=0;i<words.length;i++){
             allWords.add(words[i]);
@@ -46,6 +59,12 @@ public class GameFiveFXMLController {
         gFiveSeenBtn.setVisible(false);
         gFiveNewBtn.setVisible(false);
     }
+
+    /*
+        This method runs when user clicks the initial pane shown when game five loads
+        sets visibility of few nodes to false and few to true
+        called runGameFive() method
+     */
     public void startGameFive(MouseEvent mouseEvent) {
 
         gFiveLabelStart.setVisible(false);
@@ -57,6 +76,9 @@ public class GameFiveFXMLController {
         runGameFive();
     }
 
+    /*
+        show a random word from allWords list
+     */
     private void runGameFive(){
         System.out.println(shownWords+ " - shown words");
         this.currShowingWord = allWords.get((int) (Math.random()*(allWords.size()-1)));
@@ -64,10 +86,11 @@ public class GameFiveFXMLController {
         gFiveWordViewLabel.setText(currShowingWord);
     }
 
-    public void goToHomePage(ActionEvent actionEvent) throws IOException {
-        new HomePageFXMLController().goToHomePage(actionEvent);
-    }
-
+    /*
+        check if the word was already shown
+        If yes, increase score and advance to higher level
+        If No, decrease life
+     */
     public void onClickSeenBtn(ActionEvent actionEvent) {
         if (shownWords.contains(currShowingWord)){
             score++;
@@ -79,7 +102,11 @@ public class GameFiveFXMLController {
         }
         runGameFive();
     }
-
+    /*
+        check if the word is new
+        If yes, increase score and advance to higher level
+        If No, decrease life
+     */
     public void onClickNewBtn(ActionEvent actionEvent) {
         if (!shownWords.contains(currShowingWord)){
             score++;
@@ -90,5 +117,19 @@ public class GameFiveFXMLController {
             shownWords.add(currShowingWord);
         }
         runGameFive();
+    }
+    /*
+     This method runs when user clicks Main Menu button.
+     This method navigates user to home page.
+    */
+    public void goToHomePage(ActionEvent actionEvent) throws IOException {
+        new HomePageFXMLController().goToHomePage(actionEvent);
+    }
+    /*
+        This method runs when user clicks Play Again button.
+        This method navigates user to game five again.
+     */
+    public void restartGame(ActionEvent actionEvent) throws IOException {
+        new HomePageFXMLController().openGameFive(actionEvent);
     }
 }

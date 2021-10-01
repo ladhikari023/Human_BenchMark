@@ -26,7 +26,7 @@
                 <TextArea fx:id="gEightTextArea" layoutX="72.0" layoutY="97.0" prefHeight="130.0" prefWidth="525.0" promptText="Typing  words goes here" />
             </children>
         </Pane>
-        <Button fx:id="main_menu_btn" layoutX="290.0" layoutY="382.0" mnemonicParsing="false" onAction="#goToHomePage" text="Main Menu" />
-    </children>
+        <Button fx:id="main_menu_btn" layoutX="240.0" layoutY="382.0" mnemonicParsing="false" onAction="#goToHomePage" text="Main Menu" />
+        <Button layoutX="350.0" layoutY="382.0" mnemonicParsing="false" onAction="#restartGame" text="Play Again" />    </children>
 
 </AnchorPane>

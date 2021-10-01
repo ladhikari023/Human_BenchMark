@@ -1,4 +1,6 @@
-import javafx.application.Platform;
+/*
+    handles logic of game six: CHIMP TEST
+ */
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -11,40 +13,41 @@ import javafx.scene.text.Font;
 import java.util.ArrayList;
 
 public class GameSixBoxDraw {
-    private static final Object PAUSE_KEY = new Object();
-    private int level = 1;
-    private int strikes  = 0;
-    private final boolean gameOver = false;
-    private final Pane pane;
-    private Button btn;
-    private final ArrayList<Button> btnsClicked = new ArrayList<>();
-    private final ArrayList<Button> btnsShown = new ArrayList<>();
 
+    //Declared global variables
+    private int level = 1;  //tracks level
+    private int strikes  = 0; //track lives remaining
+    private final Pane pane;
+    private final ArrayList<Button> btnsClicked = new ArrayList<>(); //list of clicked buttons
+    private final ArrayList<Button> btnsShown = new ArrayList<>(); //list of shown buttons
+
+    //constructor
     public GameSixBoxDraw(Pane gSixCanvasHolderPane) {
         this.pane = gSixCanvasHolderPane;
     }
+    //constructor
     public GameSixBoxDraw(Pane gSixCanvasHolderPane,int level) {
         this.pane = gSixCanvasHolderPane;
         this.level = level;
     }
 
-    private void pause() {
-        Platform.enterNestedEventLoop(PAUSE_KEY);
-    }
-
-    private static void resume() {
-        Platform.exitNestedEventLoop(PAUSE_KEY, null);
-    }
-
+    //called showPattern() method
     public void start() {
         showPattern();
     }
-
+    //variable to track how many times user clicks button
     final int[] count = {0};
+
+    /*
+        for each level, shown level + 3 buttons with corresponding numbers on them
+        Added all buttons to pane
+        when button is clicked, it disappears
+        After user finishes clicking, checkPattern() method is called
+     */
     private void showPattern() {
         this.pane.getChildren().clear();
         for (int i = 1; i<= level+3; i++){
-            btn = new Button();
+            Button btn = new Button();
             btn.setText(String.valueOf(i));
 
             btn.setLayoutX(Math.random()*635);
@@ -75,7 +78,13 @@ public class GameSixBoxDraw {
             });
         }
     }
-    private boolean checkError = false;
+    private boolean checkError = false; //checks if the order in which user clicks the button is right or wrong
+    /*
+        Checking if the order in which user clicks the button is same as the order in which they are shown
+        If yes, advance to higher level
+        If Not, decrease strikes and call showStrikesMessage() method and continue the same level
+        If all strikes are gone, then showGameOverMessage() is called
+     */
     private void checkPattern() {
         this.pane.getChildren().clear();
         for (int i = 0; i< btnsClicked.size(); i++) {
@@ -95,7 +104,9 @@ public class GameSixBoxDraw {
             }
         }
     }
-
+    /*
+        display the score and strikes message
+     */
     private void showStrikesGoneMessage() {
         Label strikeMessage = new Label("SCORE: "+ (level+3)+"\nSTRIKES: "+strikes+" of 3");
         Button button = new Button("Continue");
@@ -114,6 +125,9 @@ public class GameSixBoxDraw {
         this.pane.getChildren().addAll(strikeMessage,button);
     }
 
+    /*
+        display game over message with final score
+     */
     private void showGameOverMessage() {
         Label loseMessage = new Label("     You Lose\n "+"Your Score: "+(level+3));
 

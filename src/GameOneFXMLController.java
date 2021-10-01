@@ -1,3 +1,14 @@
+/*
+    This is the Controller class of game_one.fxml
+    In this class, I have written all the logic needed for REACTION TIME TEST.
+    First I show the user a pane where basic information on game is displayed.
+    When user clicks the pane the game starts. First the red screen appears with a
+    message to user to click after screen turns green. If user clicks the screen early
+    then, a message of restart the game will appear.
+    If user clicks after the green screen then a display of their reaction time is displayed.
+    User can save their score and go to home page or restart the game.
+ */
+
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,25 +21,35 @@ import javafx.util.Duration;
 import java.io.IOException;
 
 public class GameOneFXMLController {
+    // Accessing nodes from corresponding FXML file
     @FXML
     Canvas gOneCanvas;
     @FXML
-    Label gOneLabelHeading; //Reaction Time Test
+    Label gOneLabelHeading;
     @FXML
-    Label gOneLabelInfo; //When the red box turns green, click as quickly as you can
+    Label gOneLabelInfo;
     @FXML
-    Label gOneLabelStart; //Click anywhere to start
+    Label gOneLabelStart;
     @FXML
     Pane gOneCanvasHolderPane;
 
-    private long startTime;
-    private long endTime;
-    private PauseTransition wait;
+    //Declaring global variables startTime, endTime, wait, and started
+    private long startTime;  //tracks start time when screen turns green
+    private long endTime; //tracks end time when user clicks the green screen
+    private PauseTransition wait; //helps pause the red screen for few seconds
+    boolean started = false; //tracks if the redScreen has already started or not
 
+    //initializes background of pane
     public void initialize(){
         gOneCanvasHolderPane.setStyle("-fx-background-color: RED");
     }
-    boolean started = false;
+
+    /*
+        This method runs when user clicks the pane.
+        Used pause transition to pause red screen for 3 seconds
+        If user clicks the red screen, a display message of "Too early" is shown
+        If user clicks after the green screen appears, a display message of their reaction time is displayed.
+     */
     public void onClick(MouseEvent mouseEvent) throws IOException {
         if (gOneCanvasHolderPane.getStyle().equals("-fx-background-color: RED")) {
             if (!started) {
@@ -56,10 +77,18 @@ public class GameOneFXMLController {
         }
     }
 
+    /*
+        This method runs when user clicks Main Menu button.
+        This method navigates user to home page.
+     */
     public void goToHomePage(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().goToHomePage(actionEvent);
     }
 
+    /*
+        This method runs when user clicks Play Again button.
+        This method navigates user to game one again.
+     */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameOne(actionEvent);
     }

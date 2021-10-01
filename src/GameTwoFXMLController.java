@@ -1,3 +1,14 @@
+/*
+    SEQUENCE MEMORY
+    This is the Controller class of game_two.fxml
+    In this class, I have used a grid pane which I have declared in fxml and each cell is
+    given by a label which is named in similar manner as r0c0 for row index 0 and column index 0.
+    First, I am showing users random cells turns white which they have to click in order.
+    If user is able to click the cells in order as they are shown then they advance to higher level.
+    If failed, they are displayed "You Lose" message.
+    User can save their score or restart the game.
+ */
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -16,16 +27,18 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class GameTwoFXMLController {
-    private final int levelValue = 1;
-    private boolean isClicked = false;
-    private boolean gameOver = false;
+    //Declaring global variables used in the class
+    private final int levelValue = 1;  //level of game
+    private boolean isClicked = false; //checks if the pane is clicked or not
+    private boolean gameOver = false; //checks if game is over or not
     private int lastIndex = 0;
-    private final ArrayList<Label> labelShown = new ArrayList<>();
-    private final ArrayList<Label> labelClicked = new ArrayList<>();
-    private final ArrayList<Label> labels = new ArrayList<>();
-    private final Object PAUSE_KEY = new Object();
+    private final ArrayList<Label> labelShown = new ArrayList<>(); //lists of labels shown
+    private final ArrayList<Label> labelClicked = new ArrayList<>(); //lists of labels clicked
+    private final ArrayList<Label> labels = new ArrayList<>(); //lists of labels
+    private final Object PAUSE_KEY = new Object(); // pause key variable to pause and resume the interface
 
 
+    // Accessing nodes from corresponding FXML file
     @FXML
     public GridPane gTwoGridPane;
     @FXML
@@ -63,6 +76,11 @@ public class GameTwoFXMLController {
     @FXML
     private Label r2c2;
 
+    /*
+        These methods are called from inside the on mouse clicked action on cells of grid
+        Each time user clicks the cell, the label of cell is added into labelClicked list
+        and thread if sleep is resumed.
+     */
     @FXML
     void r0c0Clicked(MouseEvent event) {
         labelClicked.add(r0c0);
@@ -117,12 +135,19 @@ public class GameTwoFXMLController {
         resume();
     }
 
+    // set visibility of these nodes to false
     public void initialize() {
         gTwoGridPane.setVisible(false);
         gTWoLevelLabel.setVisible(false);
         gTwoLevelNumLabel.setVisible(false);
     }
 
+    /*
+        This method runs when user clicks the initial pane shown when game two loads
+        Set Visibility of some nodes to true and some to false
+        Added all labels from fxml to labels list
+        called runGameTwo method.
+     */
     public void startGameTwo(MouseEvent mouseEvent) throws InterruptedException {
         if (!isClicked) {
             gTwoLabelInfo.setVisible(false);
@@ -143,11 +168,13 @@ public class GameTwoFXMLController {
             labels.add(r2c2);
 
             runGameTwo(levelValue);
-        } else {
-            System.out.println("Was Clicked before");
         }
     }
 
+    /*
+        Runs in a loop with a condition if gameOver is true or not
+        called methods showSequence and checkSequence, both with level as parameter
+     */
     public void runGameTwo(int level) throws InterruptedException {
         while (!gameOver) {
             showSequence(level);
@@ -156,31 +183,22 @@ public class GameTwoFXMLController {
         isClicked = true;
     }
 
+    //pause the interface
     private void pause() {
         Platform.enterNestedEventLoop(PAUSE_KEY);
     }
 
+    //resumes the interface
     private void resume() {
         Platform.exitNestedEventLoop(PAUSE_KEY, null);
     }
 
-    private void checkSequence(int level) throws InterruptedException {
-
-        for (int i = 0; i < level; i++) {
-            pause();
-            if (!labelShown.get(i).equals(labelClicked.get(i))) {
-                gameOver = true;
-                gTwoGridPane.setVisible(false);
-                gTwoLabelHeading.setText("You Lose");
-                gTwoLabelHeading.setVisible(true);
-                break;
-            }
-        }
-        labelClicked.clear();
-        int newLevel = level + 1;
-        runGameTwo(newLevel);
-    }
-
+    /*
+        Updated value of level
+        Assign currShownLabel to a random label from labels list
+        Added currShownLabel to labelShown list
+        Use Timeline to show the white blink for each shown Labels to user
+     */
     private void showSequence(int level) throws InterruptedException {
         Random rand = new Random();
         gTwoLevelNumLabel.setText(String.valueOf(level));
@@ -200,12 +218,41 @@ public class GameTwoFXMLController {
             timeline.play();
         }
     }
+    /*
+        Checked if the order in which labels were shown matches the order in which user clicks the corresponding cell
+        of grid pane.
+        if the order is correct then user advance to higher level
+        if not, "You Lose" message is displayed
+     */
+    private void checkSequence(int level) throws InterruptedException {
 
+        for (int i = 0; i < level; i++) {
+            pause();
+            if (!labelShown.get(i).equals(labelClicked.get(i))) {
+                gameOver = true;
+                gTwoGridPane.setVisible(false);
+                gTwoLabelHeading.setText("You Lose");
+                gTwoLabelHeading.setVisible(true);
+                break;
+            }
+        }
+        labelClicked.clear();
+        int newLevel = level + 1;
+        runGameTwo(newLevel);
+    }
 
+    /*
+        This method runs when user clicks Main Menu button.
+        This method navigates user to home page.
+     */
     public void goToHomePage(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().goToHomePage(actionEvent);
     }
 
+    /*
+        This method runs when user clicks Play Again button.
+        This method navigates user to game two again.
+     */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameTwo(actionEvent);
     }
