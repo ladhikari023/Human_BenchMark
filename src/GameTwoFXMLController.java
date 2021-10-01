@@ -9,17 +9,15 @@
     User can save their score or restart the game.
  */
 
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -46,17 +44,11 @@ public class GameTwoFXMLController {
     @FXML
     public Label gTwoLevelNumLabel;
     @FXML
-    private Pane gTwoCanvasHolderPane;
-    @FXML
-    private Canvas gTwoCanvas;
-    @FXML
     private Label gTwoLabelStart;
     @FXML
     private Label gTwoLabelHeading;
     @FXML
     private Label gTwoLabelInfo;
-    @FXML
-    private Button main_menu_btn;
     @FXML
     private Label r0c0;
     @FXML
@@ -197,8 +189,12 @@ public class GameTwoFXMLController {
         Updated value of level
         Assign currShownLabel to a random label from labels list
         Added currShownLabel to labelShown list
-        Use Timeline to show the white blink for each shown Labels to user
+        Use Animation timer to show the white blink for each shown Labels to user
+        called showCell inside Animation timer to access each shown labels and turn them to white
      */
+
+    int index = 0; // tracks the index which is to be shown to user
+
     private void showSequence(int level) throws InterruptedException {
         Random rand = new Random();
         gTwoLevelNumLabel.setText(String.valueOf(level));
@@ -211,13 +207,47 @@ public class GameTwoFXMLController {
         labelShown.add(level - 1, currShownLabel);
         lastIndex = randInt;
 
-        for (Label l : labelShown
-        ) {
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0), evt -> l.setStyle("-fx-background-color: WHITE")),
-                    new KeyFrame(Duration.seconds(1), evt -> l.setStyle("-fx-background-color: #2e2ea9")));
-            timeline.play();
-        }
+
+        AnimationTimer timer = new AnimationTimer() {
+            private long start = 0;
+            @Override
+
+            /*
+                timer runs as long as index is less than size of labelShown list, when label clicked and
+                label shown have same size then timer stops and index is again set to be 0
+                otherwise in every one second showCell method is called to show white blink
+                when index reaches size of labelShown, timer stops and index is set to be 0.
+             */
+            public void handle(long now) {
+                if (index<labelShown.size()) {
+                    if (labelShown.size() == labelClicked.size()) {
+                        index = 0;
+                        this.stop();
+                    }
+                    if (now - start > 1_000_000_000) {
+                        showCell(index);
+                        start = now;
+                    }
+                }else {
+                    this.stop();
+                    index = 0;
+                }
+            }
+        };
+        timer.start();
     }
+
+    /*
+        creates a transition of white blinks in cells
+        index is incremented every time to access newer cells
+     */
+    private void showCell(int i) {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0), evt -> labelShown.get(i).setStyle("-fx-background-color: WHITE")),
+                new KeyFrame(Duration.seconds(0.8), evt -> labelShown.get(i).setStyle("-fx-background-color: #2e2ea9")));
+        timeline.play();
+        index++;
+    }
+
     /*
         Checked if the order in which labels were shown matches the order in which user clicks the corresponding cell
         of grid pane.
