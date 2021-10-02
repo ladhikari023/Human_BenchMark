@@ -19,7 +19,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.security.CodeSource;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -151,7 +154,29 @@ public class HomePageFXMLController extends UsersScore {
         customGamePane.setBackground(new Background(new BackgroundFill(colorGenerator(),CornerRadii.EMPTY,Insets.EMPTY)));
     }
 
-    public void saveScores(ActionEvent actionEvent) {
+    public void saveScores(ActionEvent actionEvent) throws FileNotFoundException {
+        File file = new File("GameResults.csv");
+        PrintWriter out = new PrintWriter(file);
+
+        out.printf("  %s         |     %.2f ms  reaction time\n" +
+                   "  %s       |     %d        sequence remembered\n" +
+                   "  %s           |     %.2f ms  average time\n" +
+                   "  %s         |     %d        size of numbers remembered\n" +
+                   "  %s         |     %d        words remembered\n" +
+                   "  %s            |     %d        numbers remembered\n" +
+                   "  %s         |     %d        visual remembered\n"+
+                   "  %s           |     %d        average words per minute\n" +
+                   "  %s       |     %d        count remembered\n","Reaction Time",UsersScore.getReactionTimeScore(),
+                                            "Sequence Memory",UsersScore.getSequenceMemoryScore(),
+                                            "Aim Trainer",UsersScore.getAimTrainerScore(),
+                                            "Number Memory",UsersScore.getNumberMemoryScore(),
+                                            "Verbal Memory",UsersScore.getVerbalMemoryScore(),
+                                            "Chimp Test",UsersScore.getChimpTestScore(),
+                                            "Visual Memory",UsersScore.getVisualMemoryScore(),
+                                            "Typing Game",UsersScore.getTypingGameScore(),
+                                            "Counting Master",UsersScore.getCountMasterScore());
+        out.close();
+
         System.out.println("Reaction Time: "+getReactionTimeScore());
         System.out.println("Sequence Memory Test: "+getSequenceMemoryScore());
         System.out.println("Aim Trainer: "+getAimTrainerScore());

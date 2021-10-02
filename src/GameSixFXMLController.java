@@ -39,16 +39,10 @@ public class GameSixFXMLController extends UsersScore {
 
     /*
         This method runs when user clicks the initial pane shown when game six loads
-        sets visibility of few nodes to false
         called runGameSix() method
      */
     public void startGameSix(MouseEvent mouseEvent) {
-        //game logic goes here
-        gSixLabelInfo.setVisible(false);
-        gSixLabelStart.setVisible(false);
-        gSixLabelHeading.setVisible(false);
         save_score_btn.setDisable(false);
-
         runGameSix();
     }
 
@@ -76,8 +70,10 @@ public class GameSixFXMLController extends UsersScore {
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameSix(actionEvent);
     }
-
+    /*
+        This method saves the score of user
+     */
     public void saveScore(ActionEvent actionEvent) {
-        UsersScore.chimpTestScore = gameSixBoxDraw.getLevel();
+        UsersScore.chimpTestScore = gameSixBoxDraw.getLevel()+2;
     }
 }

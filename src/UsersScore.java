@@ -41,7 +41,7 @@ public class UsersScore{
         return typingGameScore;
     }
 
-    public int getCountMasterScore() {
+    public static int getCountMasterScore() {
         return countMasterScore;
     }
 }

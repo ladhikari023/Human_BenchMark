@@ -94,21 +94,35 @@ public class GameSixBoxDraw extends GameSixFXMLController {
         }
         if (!checkError){
             level++;
-            new GameSixBoxDraw(this.pane,level).showPattern();
+            Label strikeMessage = new Label("SCORE: "+ (level+2)+"\nSTRIKES: "+strikes+" of 2");
+            Button button = new Button("Continue");
+
+            button.setLayoutX(this.pane.getWidth()/2 - 30);
+            button.setLayoutY(this.pane.getHeight()/2 + 70);
+
+            button.setOnAction(event -> new GameSixBoxDraw(this.pane,level).showPattern());
+
+            strikeMessage.setFont(new Font(22));
+            strikeMessage.setTextFill(Color.WHITE);
+            strikeMessage.setPrefWidth(this.pane.getWidth());
+            strikeMessage.setPrefHeight(this.pane.getHeight());
+            strikeMessage.setAlignment(Pos.CENTER);
+
+            this.pane.getChildren().addAll(strikeMessage,button);
         }else{
             strikes++;
             if (strikes==2) {
                 showGameOverMessage();
             }else{
-                showStrikesGoneMessage();
+                showStrikesMessage();
             }
         }
     }
     /*
         display the score and strikes message
      */
-    private void showStrikesGoneMessage() {
-        Label strikeMessage = new Label("SCORE: "+ (level+3)+"\nSTRIKES: "+strikes+" of 2");
+    private void showStrikesMessage() {
+        Label strikeMessage = new Label("SCORE: "+ (level+2)+"\nSTRIKES: "+strikes+" of 2");
         Button button = new Button("Continue");
 
         button.setLayoutX(this.pane.getWidth()/2 - 30);
@@ -129,7 +143,7 @@ public class GameSixBoxDraw extends GameSixFXMLController {
         display game over message with final score
      */
     private void showGameOverMessage() {
-        Label loseMessage = new Label("     You Lose\n "+"Your Score: "+(level+3));
+        Label loseMessage = new Label("     You Lose\n "+"Your Score: "+(level+2));
 
         loseMessage.setFont(new Font(24));
         loseMessage.setTextFill(Color.WHITE);

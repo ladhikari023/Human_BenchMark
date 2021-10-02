@@ -1,3 +1,12 @@
+/*
+    COUNT MASTER TEST
+    This is the Controller class of custom_game.fxml
+    In this class, I show random number of Red circles along with random number of non-red circles.
+    Then I ask user to enter the number of red circles shown. If user is right, they advance to higher
+    level. If not user will be displayed game over message with their score
+    user can save the score or restart the game
+ */
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -15,8 +24,12 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
+/*
+    Controller class
+ */
 public class CustomGameFXMLController extends UsersScore{
 
+    // Accessing nodes from corresponding FXML file
     @FXML
     public Circle gCustomCircle;
     @FXML
@@ -32,16 +45,24 @@ public class CustomGameFXMLController extends UsersScore{
     @FXML
     public Button save_score_btn;
 
-    private Pane gamePane;
-    public int level;
-    private int numberOfCircles;
-    private int minNumber = level+3;
+    //Declaring global variables
+    private Pane gamePane; //pane to run the game
+    public int level; // tracks level of game
+    private int numberOfCircles; //random number of circles to be shown
+    private int minNumber = level+3; //min number of circles to show
 
+    /*
+        runs first when the fxml loads
+     */
     public void initialize(){
         gCustomCircle.setVisible(false);
         level =1;
     }
 
+    /*
+        Added gamePane to main pane
+        called runTimeLine() method
+     */
     public void startCustomGame(MouseEvent mouseEvent) {
         gamePane = new Pane();
         gamePane.setPrefWidth(gCustomCanvasHolderPane.getWidth());
@@ -55,13 +76,18 @@ public class CustomGameFXMLController extends UsersScore{
 
         gCustomMainPane.getChildren().add(gamePane);
     }
+    /*
+        Used timeline to show circles first and then ask input from user
+     */
     private void runTimeLine(){
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(0), evt -> showCircles()),
                 new KeyFrame(Duration.seconds(level), evt -> askUserInput()));
         timeline.play();
     }
 
-
+    /*
+        Creates random number of red and non-red circles and add it to gamePane
+     */
     private void showCircles() {
         gamePane.getChildren().clear();
         gCustomLabelInfo.setText("Level: "+ level);
@@ -84,6 +110,12 @@ public class CustomGameFXMLController extends UsersScore{
         }
     }
 
+    /*
+        shows textField where user can input the number of red circles
+        checked if user entered right number in textField, when user hit submit button
+        if yes, call runTimeLine() again
+        if no, call showResults() method
+     */
     private void askUserInput() {
         gamePane.getChildren().clear();
         gCustomLabelHeading.setText("How many red circles were there?");
@@ -108,7 +140,9 @@ public class CustomGameFXMLController extends UsersScore{
             }
         });
     }
-
+    /*
+        shown game over message along with user's score
+     */
     private void showResults() {
         gamePane.getChildren().clear();
         gCustomLabelHeading.setText("Level: "+level);
