@@ -66,7 +66,7 @@ public class GameThreeFXMLController extends UsersScore {
         gThreeLabelInfo.setVisible(false);
         gThreeStartButton.setVisible(false);
 
-        int cycle = 5;
+        int cycle = 30;
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < cycle; i++) {
             showCircle(i,cycle);
