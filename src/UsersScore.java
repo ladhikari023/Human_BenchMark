@@ -1,4 +1,5 @@
 public class UsersScore{
+    public static String userName;
     public static int countMasterScore;
     public static double reactionTimeScore;
     public static int sequenceMemoryScore;
@@ -43,5 +44,9 @@ public class UsersScore{
 
     public static int getCountMasterScore() {
         return countMasterScore;
+    }
+
+    protected static String getUserName() {
+        return userName;
     }
 }

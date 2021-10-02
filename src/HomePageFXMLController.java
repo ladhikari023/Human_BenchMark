@@ -6,17 +6,20 @@
  */
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -30,6 +33,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class HomePageFXMLController extends UsersScore {
 
     // Accessing nodes from corresponding FXML file
+    @FXML
+    public AnchorPane mainPane;
     @FXML
     private Pane gameOnePane;
     @FXML
@@ -155,36 +160,106 @@ public class HomePageFXMLController extends UsersScore {
     }
 
     public void saveScores(ActionEvent actionEvent) throws FileNotFoundException {
+        askUserName();
+    }
+
+    private void askUserName() {
+        mainPane.getChildren().clear();
+
+        Pane root = new Pane();
+        Label userName = new Label("Enter your Name");
+        TextField userInput = new TextField();
+        userInput.setPromptText("Your Name");
+        Button submitBtn = new Button("Submit");
+
+        userName.setPrefWidth(mainPane.getWidth());
+        userName.setAlignment(Pos.CENTER);
+        userName.setTextFill(Color.WHITE);
+        userName.setFont(new Font(20));
+        userName.setLayoutY(100);
+
+        userInput.setLayoutY(140);
+        userInput.setLayoutX(225);
+
+        submitBtn.setLayoutX(270);
+        submitBtn.setLayoutY(200);
+
+        root.getChildren().addAll(userName,userInput,submitBtn);
+        root.setPrefWidth(mainPane.getWidth());
+        root.setPrefHeight(mainPane.getHeight()-100);
+        root.setLayoutX(mainPane.getLayoutX());
+        root.setLayoutY(mainPane.getLayoutY()+50);
+        root.setStyle("-fx-background-color: BLUE");
+        mainPane.getChildren().addAll(root);
+
+        submitBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                UsersScore.userName = userInput.getText();
+                try {
+                    createCSVFile();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                root.getChildren().clear();
+                userName.setText("File Created SuccessFully!!");
+                Button goBackBtn = new Button("Home Page");
+                Button exitGame = new Button("Exit Game");
+
+                goBackBtn.setLayoutX(submitBtn.getLayoutX()-60);
+                goBackBtn.setLayoutY(submitBtn.getLayoutY());
+
+                goBackBtn.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        try {
+                            new HomePageFXMLController().goToHomePage(event);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+                exitGame.setLayoutX(submitBtn.getLayoutX()+60);
+                exitGame.setLayoutY(submitBtn.getLayoutY());
+
+                exitGame.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Stage stage = (Stage) exitGame.getScene().getWindow();
+                        stage.close();
+                    }
+                });
+
+                root.getChildren().addAll(userName,goBackBtn,exitGame);
+            }
+        });
+    }
+
+    private void createCSVFile() throws FileNotFoundException {
         File file = new File("GameResults.csv");
         PrintWriter out = new PrintWriter(file);
 
-        out.printf("  %s         |     %.2f ms  reaction time\n" +
-                   "  %s       |     %d        sequence remembered\n" +
-                   "  %s           |     %.2f ms  average time\n" +
-                   "  %s         |     %d        size of numbers remembered\n" +
-                   "  %s         |     %d        words remembered\n" +
-                   "  %s            |     %d        numbers remembered\n" +
-                   "  %s         |     %d        visual remembered\n"+
-                   "  %s           |     %d        average words per minute\n" +
-                   "  %s       |     %d        count remembered\n","Reaction Time",UsersScore.getReactionTimeScore(),
-                                            "Sequence Memory",UsersScore.getSequenceMemoryScore(),
-                                            "Aim Trainer",UsersScore.getAimTrainerScore(),
-                                            "Number Memory",UsersScore.getNumberMemoryScore(),
-                                            "Verbal Memory",UsersScore.getVerbalMemoryScore(),
-                                            "Chimp Test",UsersScore.getChimpTestScore(),
-                                            "Visual Memory",UsersScore.getVisualMemoryScore(),
-                                            "Typing Game",UsersScore.getTypingGameScore(),
-                                            "Counting Master",UsersScore.getCountMasterScore());
+        out.printf("                           %s                             \n"+
+                        "------------------------------------------------------------\n"+
+                        "  %s         |     %.2f ms  reaction time\n" +
+                        "  %s       |     %d        sequence remembered\n" +
+                        "  %s           |     %.2f ms  average time\n" +
+                        "  %s         |     %d        size of numbers remembered\n" +
+                        "  %s         |     %d        words remembered\n" +
+                        "  %s            |     %d        numbers remembered\n" +
+                        "  %s         |     %d        visual remembered\n"+
+                        "  %s           |     %d        average words per minute\n" +
+                        "  %s       |     %d        count remembered\n",UsersScore.getUserName(),
+                "Reaction Time",UsersScore.getReactionTimeScore(),
+                "Sequence Memory",UsersScore.getSequenceMemoryScore(),
+                "Aim Trainer",UsersScore.getAimTrainerScore(),
+                "Number Memory",UsersScore.getNumberMemoryScore(),
+                "Verbal Memory",UsersScore.getVerbalMemoryScore(),
+                "Chimp Test",UsersScore.getChimpTestScore(),
+                "Visual Memory",UsersScore.getVisualMemoryScore(),
+                "Typing Game",UsersScore.getTypingGameScore(),
+                "Counting Master",UsersScore.getCountMasterScore());
         out.close();
-
-        System.out.println("Reaction Time: "+getReactionTimeScore());
-        System.out.println("Sequence Memory Test: "+getSequenceMemoryScore());
-        System.out.println("Aim Trainer: "+getAimTrainerScore());
-        System.out.println("Number Memory: "+getNumberMemoryScore());
-        System.out.println("Verbal Memory: "+getVerbalMemoryScore());
-        System.out.println("Chimp test: "+getChimpTestScore());
-        System.out.println("Visual Memory: "+getVisualMemoryScore());
-        System.out.println("Typing game: "+getTypingGameScore());
-        System.out.println("Count Master: "+getCountMasterScore());
     }
 }
