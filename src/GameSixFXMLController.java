@@ -3,7 +3,7 @@
     This is the Controller class of game_six.fxml
     In this class, I have to show user few numbers in a button which are disappeared when one
     button is clicked. User have to guess the number and click the rest of the button in same order.
-    There are 3 lives in the game. If user takes all 3 lives then a display of game over message with
+    There are 3 lives in the game. If user takes all 2 lives then a display of game over message with
     scores are shown.
     user can save the score or restart the game again.
  */
@@ -17,7 +17,10 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
-public class GameSixFXMLController {
+public class GameSixFXMLController extends UsersScore {
+
+    private GameSixBoxDraw gameSixBoxDraw;
+
     // Accessing nodes from corresponding FXML file
     @FXML
     private Pane gSixCanvasHolderPane;
@@ -31,6 +34,8 @@ public class GameSixFXMLController {
     private Label gSixLabelInfo;
     @FXML
     private Button main_menu_btn;
+    @FXML
+    public Button save_score_btn;
 
     /*
         This method runs when user clicks the initial pane shown when game six loads
@@ -42,6 +47,7 @@ public class GameSixFXMLController {
         gSixLabelInfo.setVisible(false);
         gSixLabelStart.setVisible(false);
         gSixLabelHeading.setVisible(false);
+        save_score_btn.setDisable(false);
 
         runGameSix();
     }
@@ -50,7 +56,8 @@ public class GameSixFXMLController {
         create a new instance of GameSixBoxDraw class and calls start method of that class
      */
     private void runGameSix() {
-        GameSixBoxDraw gameSixBoxDraw = new GameSixBoxDraw(gSixCanvasHolderPane);
+        GameSixBoxDraw gameSixBoxDraw = new GameSixBoxDraw(this.gSixCanvasHolderPane);
+        this.gameSixBoxDraw = gameSixBoxDraw;
         gameSixBoxDraw.start();
     }
 
@@ -68,5 +75,9 @@ public class GameSixFXMLController {
      */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameSix(actionEvent);
+    }
+
+    public void saveScore(ActionEvent actionEvent) {
+        UsersScore.chimpTestScore = gameSixBoxDraw.getLevel();
     }
 }

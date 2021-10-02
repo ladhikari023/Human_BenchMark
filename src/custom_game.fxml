@@ -9,21 +9,22 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns="http://javafx.com/javafx"
+<AnchorPane
+            fx:id="gCustomMainPane"
+            xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="GameThreeFXMLController"
+            fx:controller="CustomGameFXMLController"
             prefHeight="400.0" prefWidth="600.0">
     <children>
-        <Pane fx:id="gThreeCanvasHolderPane" layoutX="1.0" layoutY="53.0" onMouseClicked="#onClick" prefHeight="299.0" prefWidth="662.0" style="-fx-background-color: BLUE">
-            <Canvas fx:id="gThreeCanvas" height="299.0" width="662.0" />
-            <Circle fx:id="gThreeCircle" fill="black" radius="20" />
-            <Label fx:id="gThreeLabelHeading" alignment="CENTER" layoutY="104.0" prefHeight="29.0" prefWidth="662.0" text="Aim Trainer" textFill="#fdfcfc">
+        <Pane fx:id="gCustomCanvasHolderPane" layoutX="1.0" layoutY="53.0" onMouseClicked="#startCustomGame" prefHeight="299.0" prefWidth="662.0" style="-fx-background-color: BLUE">
+            <Canvas fx:id="gCustomCanvas" height="299.0" width="662.0" />
+            <Circle fx:id="gCustomCircle" fill="black" radius="20" />
+            <Label fx:id="gCustomLabelHeading" alignment="CENTER" layoutY="104.0" prefHeight="29.0" prefWidth="662.0" text="Count Master" textFill="#fdfcfc">
                 <font>
                     <Font size="24.0" />
                 </font>
             </Label>
-            <Label fx:id="gThreeLabelInfo" alignment="CENTER" layoutY="141.0" prefHeight="17.0" prefWidth="662.0" text="Hit 30 target as soon as you can" textFill="#fdfafa" />
-            <Button fx:id="gThreeStartButton" layoutX="304.0" layoutY="180.0" mnemonicParsing="false" text="Start" onAction="#startGameThree"/>
+            <Label fx:id="gCustomLabelInfo" alignment="CENTER" layoutY="141.0" prefHeight="17.0" prefWidth="662.0" text="Count the number of 'RED' circles shown as quickly as possible" textFill="#fdfafa" />
         </Pane>
         <Button fx:id="main_menu_btn" layoutX="180.0" layoutY="362.0" mnemonicParsing="false" onAction="#goToHomePage" text="Main Menu" />
         <Button fx:id="save_score_btn" layoutX="290.0" layoutY="362.0" mnemonicParsing="false" onAction="#saveScore" text="Save Score" disable="true"/>

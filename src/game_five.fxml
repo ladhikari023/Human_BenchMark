@@ -32,7 +32,9 @@
                 </Label>
             </children>
         </Pane>
-        <Button fx:id="main_menu_btn" layoutX="240.0" layoutY="382.0" mnemonicParsing="false" onAction="#goToHomePage" text="Main Menu" />
-        <Button layoutX="350.0" layoutY="382.0" mnemonicParsing="false" onAction="#restartGame" text="Play Again" />    </children>
+        <Button fx:id="main_menu_btn" layoutX="180.0" layoutY="362.0" mnemonicParsing="false" onAction="#goToHomePage" text="Main Menu" />
+        <Button fx:id="save_score_btn" layoutX="290.0" layoutY="362.0" mnemonicParsing="false" onAction="#saveScore" text="Save Score" disable="true"/>
+        <Button layoutX="400.0" layoutY="362.0" mnemonicParsing="false" onAction="#restartGame" text="Play Again" />
+    </children>
 
 </AnchorPane>

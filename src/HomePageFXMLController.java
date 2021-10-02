@@ -20,10 +20,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.security.CodeSource;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class HomePageFXMLController {
+public class HomePageFXMLController extends UsersScore {
 
     // Accessing nodes from corresponding FXML file
     @FXML
@@ -42,15 +43,17 @@ public class HomePageFXMLController {
     private Pane gameSevenPane;
     @FXML
     private Pane gameEightPane;
+    @FXML
+    public Pane customGamePane;
 
     // Declared global variables stage and root.
     private Stage stage;
     private Parent root;
 
-    // This method is responsible for navigating user to game one (Reaction time)
-    public void openGameOne(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game_one.fxml")));
-        stage = (Stage)(((Node)e.getSource()).getScene().getWindow());
+    // This method is responsible for navigating user to custom game (Count Master)
+    public void openCustomGame(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("custom_game.fxml")));
+        stage = (Stage)(((Node)actionEvent.getSource()).getScene().getWindow());
         stage.setScene(new Scene(root));
         stage.show();
     }
@@ -111,6 +114,14 @@ public class HomePageFXMLController {
         stage.show();
     }
 
+    // This method is responsible for navigating user to game one (Reaction time)
+    public void openGameOne(ActionEvent e) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("game_one.fxml")));
+        stage = (Stage)(((Node)e.getSource()).getScene().getWindow());
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
     // This method is responsible for navigating user to home page
     public void goToHomePage(ActionEvent e) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("homepage.fxml")));
@@ -120,7 +131,7 @@ public class HomePageFXMLController {
     }
 
     // generates and return Color with random r,g,b values
-    public Color colorGenerator(){
+    public static Color colorGenerator(){
         ThreadLocalRandom rand = ThreadLocalRandom.current();
         return new Color(rand.nextDouble(), rand.nextDouble(), rand.nextDouble(), 0.5);
     }
@@ -137,5 +148,18 @@ public class HomePageFXMLController {
         gameTwoPane.setBackground(new Background(new BackgroundFill(colorGenerator(), CornerRadii.EMPTY, Insets.EMPTY)));
         gameThreePane.setBackground(new Background(new BackgroundFill(colorGenerator(), CornerRadii.EMPTY, Insets.EMPTY)));
         gameFourPane.setBackground(new Background(new BackgroundFill(colorGenerator(), CornerRadii.EMPTY, Insets.EMPTY)));
+        customGamePane.setBackground(new Background(new BackgroundFill(colorGenerator(),CornerRadii.EMPTY,Insets.EMPTY)));
+    }
+
+    public void saveScores(ActionEvent actionEvent) {
+        System.out.println("Reaction Time: "+getReactionTimeScore());
+        System.out.println("Sequence Memory Test: "+getSequenceMemoryScore());
+        System.out.println("Aim Trainer: "+getAimTrainerScore());
+        System.out.println("Number Memory: "+getNumberMemoryScore());
+        System.out.println("Verbal Memory: "+getVerbalMemoryScore());
+        System.out.println("Chimp test: "+getChimpTestScore());
+        System.out.println("Visual Memory: "+getVisualMemoryScore());
+        System.out.println("Typing game: "+getTypingGameScore());
+        System.out.println("Count Master: "+getCountMasterScore());
     }
 }

@@ -18,9 +18,10 @@ import javafx.scene.shape.Circle;
 
 import java.io.IOException;
 
-public class GameThreeFXMLController {
+public class GameThreeFXMLController extends UsersScore {
 
     private final Object PAUSE_KEY = new Object();// pause key variable to pause and resume the interface
+    private double diff; //gives the time difference of when user starts the game and when the game ends
 
     // Accessing nodes from corresponding FXML file
     @FXML
@@ -33,6 +34,8 @@ public class GameThreeFXMLController {
     private Label gThreeLabelHeading;
     @FXML
     private Label gThreeLabelInfo;
+    @FXML
+    public Button save_score_btn;
     @FXML
     private Button main_menu_btn;
 
@@ -63,13 +66,14 @@ public class GameThreeFXMLController {
         gThreeLabelInfo.setVisible(false);
         gThreeStartButton.setVisible(false);
 
-        int cycle = 30;
+        int cycle = 5;
         long startTime = System.currentTimeMillis();
         for (int i = 0; i < cycle; i++) {
             showCircle(i,cycle);
         }
         long endTime = System.currentTimeMillis();
-        long diff = (endTime - startTime) / cycle;
+        this.diff = (endTime - startTime) / cycle;
+        save_score_btn.setDisable(false);
         gThreeLabelHeading.setText("Average Time: " + diff + " ms");
     }
 
@@ -114,5 +118,11 @@ public class GameThreeFXMLController {
      */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameThree(actionEvent);
+    }
+    /*
+        This method saves the score of user
+     */
+    public void saveScore(ActionEvent actionEvent) {
+        UsersScore.aimTrainerScore = this.diff;
     }
 }

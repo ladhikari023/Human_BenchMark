@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 
 import java.util.ArrayList;
 
-public class GameSixBoxDraw {
+public class GameSixBoxDraw extends GameSixFXMLController {
 
     //Declared global variables
     private int level = 1;  //tracks level
@@ -97,7 +97,7 @@ public class GameSixBoxDraw {
             new GameSixBoxDraw(this.pane,level).showPattern();
         }else{
             strikes++;
-            if (strikes==3) {
+            if (strikes==2) {
                 showGameOverMessage();
             }else{
                 showStrikesGoneMessage();
@@ -108,7 +108,7 @@ public class GameSixBoxDraw {
         display the score and strikes message
      */
     private void showStrikesGoneMessage() {
-        Label strikeMessage = new Label("SCORE: "+ (level+3)+"\nSTRIKES: "+strikes+" of 3");
+        Label strikeMessage = new Label("SCORE: "+ (level+3)+"\nSTRIKES: "+strikes+" of 2");
         Button button = new Button("Continue");
 
         button.setLayoutX(this.pane.getWidth()/2 - 30);
@@ -138,5 +138,9 @@ public class GameSixBoxDraw {
         loseMessage.setAlignment(Pos.CENTER);
 
         this.pane.getChildren().addAll(loseMessage);
+    }
+
+    public int getLevel() {
+        return this.level;
     }
 }

@@ -19,7 +19,7 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GameFiveFXMLController {
+public class GameFiveFXMLController extends UsersScore {
 
     //Declaring global variables
     private int score = 0;
@@ -49,6 +49,8 @@ public class GameFiveFXMLController {
     private Label gFiveLabelInfo;
     @FXML
     private Button main_menu_btn;
+    @FXML
+    public Button save_score_btn;
 
     //adds all words from list to allWords list
     public void initialize(){
@@ -58,6 +60,7 @@ public class GameFiveFXMLController {
         gFiveWordViewLabel.setVisible(false);
         gFiveSeenBtn.setVisible(false);
         gFiveNewBtn.setVisible(false);
+        save_score_btn.setDisable(false);
     }
 
     /*
@@ -80,7 +83,6 @@ public class GameFiveFXMLController {
         show a random word from allWords list
      */
     private void runGameFive(){
-        System.out.println(shownWords+ " - shown words");
         this.currShowingWord = allWords.get((int) (Math.random()*(allWords.size()-1)));
         gFiveLabelHeading.setText("Lives: | "+lives+"   Score: | "+score);
         gFiveWordViewLabel.setText(currShowingWord);
@@ -131,5 +133,11 @@ public class GameFiveFXMLController {
      */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameFive(actionEvent);
+    }
+    /*
+        This method saves the score of user
+     */
+    public void saveScore(ActionEvent actionEvent) {
+        UsersScore.verbalMemoryScore = this.score;
     }
 }

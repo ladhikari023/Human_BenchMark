@@ -15,6 +15,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -24,9 +25,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GameTwoFXMLController {
+public class GameTwoFXMLController extends UsersScore {
     //Declaring global variables used in the class
-    private final int levelValue = 1;  //level of game
+    private int level = 1;  //level of game
     private boolean isClicked = false; //checks if the pane is clicked or not
     private boolean gameOver = false; //checks if game is over or not
     private int lastIndex = 0;
@@ -50,6 +51,8 @@ public class GameTwoFXMLController {
     @FXML
     private Label gTwoLabelInfo;
     @FXML
+    public Button save_score_btn;
+    @FXML
     private Label r0c0;
     @FXML
     private Label r0c1;
@@ -69,9 +72,9 @@ public class GameTwoFXMLController {
     private Label r2c2;
 
     /*
-        These methods are called from inside the on mouse clicked action on cells of grid
+        These methods are called from inside the 'on mouse clicked' action on cells of grid
         Each time user clicks the cell, the label of cell is added into labelClicked list
-        and thread if sleep is resumed.
+        and thread if paused is resumed.
      */
     @FXML
     void r0c0Clicked(MouseEvent event) {
@@ -159,7 +162,7 @@ public class GameTwoFXMLController {
             labels.add(r2c1);
             labels.add(r2c2);
 
-            runGameTwo(levelValue);
+            runGameTwo(level);
         }
     }
 
@@ -261,7 +264,9 @@ public class GameTwoFXMLController {
             if (!labelShown.get(i).equals(labelClicked.get(i))) {
                 gameOver = true;
                 gTwoGridPane.setVisible(false);
+                this.level = level-1;
                 gTwoLabelHeading.setText("You Lose");
+                save_score_btn.setDisable(false);
                 gTwoLabelHeading.setVisible(true);
                 break;
             }
@@ -285,5 +290,11 @@ public class GameTwoFXMLController {
      */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameTwo(actionEvent);
+    }
+    /*
+        This method saves the score of user
+     */
+    public void saveScore(ActionEvent actionEvent) {
+        UsersScore.sequenceMemoryScore = this.level;
     }
 }

@@ -65,7 +65,12 @@
             <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openGameTwo" text="Play"/>
             <Label alignment="CENTER" layoutY="14.0" prefHeight="17.0" prefWidth="173.0" text="Sequence Memory"/>
         </Pane>
+        <Pane fx:id="customGamePane" layoutX="10.0" layoutY="10.0" prefHeight="109.0" prefWidth="175.0"
+              GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Button layoutX="63.0" layoutY="40.0" mnemonicParsing="false" onAction="#openCustomGame" text="Play"/>
+            <Label alignment="CENTER" layoutY="14.0" prefHeight="17.0" prefWidth="173.0" text="Count Master"/>
+        </Pane>
     </GridPane>
     <Label layoutX="214.0" layoutY="14.0" text="Welcome to Human Benchmark"/>
-
+    <Button layoutX="260.0" layoutY="362.0" mnemonicParsing="false" onAction="#saveScores" text="Get Scores" />
 </AnchorPane>

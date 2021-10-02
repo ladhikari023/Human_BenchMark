@@ -20,7 +20,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
-public class GameFourFXMLController {
+public class GameFourFXMLController extends UsersScore{
 
     // Accessing nodes from corresponding FXML file
     @FXML
@@ -29,6 +29,8 @@ public class GameFourFXMLController {
     public Button gFourNextBtn;
     @FXML
     public TextField gFourTextField;
+    @FXML
+    public Button save_score_btn;
     @FXML
     private Pane gFourCanvasHolderPane;
     @FXML
@@ -105,6 +107,7 @@ public class GameFourFXMLController {
         }else{
             gFourLabelStart.setText("You Lose");
             gFourLabelStart.setVisible(true);
+            save_score_btn.setDisable(false);
         }
         gFourTextField.clear();
         gFourTextField.setVisible(false);
@@ -141,5 +144,11 @@ public class GameFourFXMLController {
      */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameFour(actionEvent);
+    }
+    /*
+        This method saves the score of user
+     */
+    public void saveScore(ActionEvent actionEvent) {
+        UsersScore.numberMemoryScore = this.currLevel-1;
     }
 }

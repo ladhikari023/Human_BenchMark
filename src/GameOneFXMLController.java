@@ -13,6 +13,7 @@ import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -20,7 +21,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
-public class GameOneFXMLController {
+public class GameOneFXMLController extends UsersScore {
     // Accessing nodes from corresponding FXML file
     @FXML
     Canvas gOneCanvas;
@@ -32,10 +33,13 @@ public class GameOneFXMLController {
     Label gOneLabelStart;
     @FXML
     Pane gOneCanvasHolderPane;
+    @FXML
+    public Button save_score_btn; // saves reaction time
 
     //Declaring global variables startTime, endTime, wait, and started
     private long startTime;  //tracks start time when screen turns green
     private long endTime; //tracks end time when user clicks the green screen
+    private double diff; // gives the reaction time
     private PauseTransition wait; //helps pause the red screen for few seconds
     boolean started = false; //tracks if the redScreen has already started or not
 
@@ -72,8 +76,9 @@ public class GameOneFXMLController {
         }else{
             endTime = System.currentTimeMillis();
             gOneLabelStart.setVisible(true);
-            double diff = endTime - startTime;
+            diff = endTime - startTime;
             gOneLabelStart.setText((diff - 3000) + " ms");
+            save_score_btn.setDisable(false);
         }
     }
 
@@ -91,5 +96,11 @@ public class GameOneFXMLController {
      */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameOne(actionEvent);
+    }
+    /*
+        This method saves the score of user
+     */
+    public void saveScore(ActionEvent actionEvent) {
+        UsersScore.reactionTimeScore = (this.diff-3000);
     }
 }

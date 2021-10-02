@@ -22,11 +22,13 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GameSevenFXMLController {
+public class GameSevenFXMLController extends UsersScore {
 
     // Accessing nodes from corresponding FXML file
     @FXML
     private Pane gSevenCanvasHolderPane;
+    @FXML
+    public Button save_score_btn;
     @FXML
     private Label gSevenLabelStart;
     @FXML
@@ -47,7 +49,7 @@ public class GameSevenFXMLController {
     //Declaring global variables
     private int sizeOfGrid = 3; //tracks size of grid. 3 means 3*3 grid
     private int level = 1; //tracks level of game
-    private int strike = 3; //tracks strikes
+    private int strike = 2; //tracks strikes
     private int count = 0; //tracks count to increase the size of grid
     private final ArrayList<int[]> cellList = new ArrayList<>(); //list to hold int array of row and column index
     private final ArrayList<Button> btnList = new ArrayList<>(); //list to hold all buttons added into gridpane
@@ -171,6 +173,7 @@ public class GameSevenFXMLController {
                 @Override
                 public void handle(ActionEvent event) {
                     //System.out.println(GridPane.getRowIndex((Node)event.getSource())+ " and "+ GridPane.getColumnIndex((Node)event.getSource()));
+                    clickedBtn.setStyle("-fx-background-color: WHITE");
                     clickedBtnList.add(clickedBtn);
                     if (clickedBtnList.size()==shownBtnList.size()){
                         checkBoxes();
@@ -220,6 +223,10 @@ public class GameSevenFXMLController {
         if (!isGameOver){
             level++;
             shownBtnList.clear();
+            for (Button b:clickedBtnList)
+            {
+                b.setStyle("-fx-background-color: LIGHTBLUE");
+            }
             clickedBtnList.clear();
             showBoxes();
         }else{
@@ -227,6 +234,10 @@ public class GameSevenFXMLController {
             if (strike>0){
                 count--;
                 shownBtnList.clear();
+                for (Button b:clickedBtnList)
+                {
+                    b.setStyle("-fx-background-color: LIGHTBLUE");
+                }
                 clickedBtnList.clear();
                 showBoxes();
             }else{
@@ -252,7 +263,7 @@ public class GameSevenFXMLController {
         gSevenLabelInfo.setText("Level: "+level);
         gSevenLabelInfo.setFont(new Font(20));
         gSevenLabelStart.setText("Click Save to Save the Score");
-
+        save_score_btn.setDisable(false);
 
         gSevenMainPane.getChildren().addAll(showResultRoot);
 
@@ -271,5 +282,11 @@ public class GameSevenFXMLController {
      */
     public void restartGame(ActionEvent actionEvent) throws IOException {
         new HomePageFXMLController().openGameSeven(actionEvent);
+    }
+    /*
+        This method saves the score of user
+     */
+    public void saveScore(ActionEvent actionEvent) {
+        UsersScore.visualMemoryScore = level-1;
     }
 }
